@@ -1,4 +1,4 @@
-
+import Swal from 'sweetalert2'
 const AddCoffey = () => {
     const handleAddCoffee = e => {
         e.preventDefault();
@@ -10,8 +10,29 @@ const AddCoffey = () => {
         const taste = form.taste.value;
         const details = form.details.value;
         const photo = form.photo.value;
-        const newCoffee = { name, supplier, category, chef, taste, details, photo }
-        console.log(newCoffee);
+        const newCoffey = { name, supplier, category, chef, taste, details, photo }
+        console.log(newCoffey);
+
+        // send data to the server 
+        fetch('http://localhost:5000/addCoffey', {
+            method : "POST",
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify(newCoffey)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.insertedId){
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Do you want to continue',
+                    icon: 'error',
+                    confirmButtonText: 'Cool'
+                  })
+            }
+        })
     }
 
     return (
@@ -25,19 +46,19 @@ const AddCoffey = () => {
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input type="name" name="name" placeholder="Enter coffee name" className="input input-bordered" required />
+                                <input type="name" name="name" placeholder="Enter coffee name" className="input input-bordered"  />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Supplier</span>
                                 </label>
-                                <input type="supplier" name="supplier" placeholder="Enter coffee Supplier" className="input input-bordered" required />
+                                <input type="supplier" name="supplier" placeholder="Enter coffee Supplier" className="input input-bordered"  />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Category</span>
                                 </label>
-                                <input type="category" name="category" placeholder="Enter coffee Category" className="input input-bordered" required />
+                                <input type="category" name="category" placeholder="Enter coffee Category" className="input input-bordered"  />
                             </div>
                         </div>
                         <div className="w-2/3">
@@ -45,19 +66,19 @@ const AddCoffey = () => {
                                 <label className="label">
                                     <span className="label-text">Chef</span>
                                 </label>
-                                <input type="chef" name="chef" placeholder="Enter coffee Chef" className="input input-bordered" required />
+                                <input type="chef" name="chef" placeholder="Enter coffee Chef" className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Taste</span>
                                 </label>
-                                <input type="taste" name="taste" placeholder="Enter coffee Taste" className="input input-bordered" required />
+                                <input type="taste" name="taste" placeholder="Enter coffee Taste" className="input input-bordered"  />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Details</span>
                                 </label>
-                                <input type="details" name="details" placeholder="Enter coffee details" className="input input-bordered" required />
+                                <input type="details" name="details" placeholder="Enter coffee details" className="input input-bordered" />
                             </div>
                         </div>
                     </div>
@@ -65,7 +86,7 @@ const AddCoffey = () => {
                         <label className="label">
                             <span className="label-text">Photo</span>
                         </label>
-                        <input type="photo" name="photo" placeholder="Enter Photo url" className="input input-bordered" required />
+                        <input type="photo" name="photo" placeholder="Enter Photo url" className="input input-bordered"  />
                     </div>
                     <div className="form-control text-center">
                         <button className="w-full bg-[#D2B48C] py-3 mt-5 rounded-lg">Add Coffee</button>
