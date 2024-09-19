@@ -14,13 +14,33 @@ const AddCoffey = () => {
         console.log(newCoffey);
 
         // send data to the server 
-        fetch('http://localhost:5000/addCoffey', {
-            method : "POST",
-            headers : {
-                'content-type' : 'application/json'
+        fetch('http://localhost:5000/coffey', {  // Update to the correct port and path
+            method: "POST",
+            headers: {
+              'content-type': 'application/json'
             },
-            body : JSON.stringify(newCoffey)
-        })
+            body: JSON.stringify(newCoffey)
+          })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            if (data.insertedId) {
+              Swal.fire({
+                title: 'Success!',
+                text: 'Coffee added successfully!',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+              });
+            } else {
+              Swal.fire({
+                title: 'Error!',
+                text: 'Failed to add coffee.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+              });
+            }
+          })
+          
         .then(res => res.json())
         .then(data => {
             console.log(data);
